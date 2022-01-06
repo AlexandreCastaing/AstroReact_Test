@@ -1,0 +1,2 @@
+cd astro
+cmd.exe
