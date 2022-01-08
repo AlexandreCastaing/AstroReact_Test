@@ -1,15 +1,15 @@
-import {View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
-export default function MainView({navigation}) {
-    const onPress = () => navigation.navigate('Search');
+export default function SearchView({navigation}) {
+    const onPress = () => navigation.navigate('Map');
     return(
         <View style={styles.container}>
-            <Text> Main view </Text>
+            <Text> Search view </Text>
             <TouchableOpacity
                 style={styles.button}
                 onPress={onPress}
             >
-                <Text>Search</Text>
+                <Text>Map</Text>
             </TouchableOpacity>
         </View>
     )
@@ -27,4 +27,3 @@ const styles = StyleSheet.create({
         padding: 10
     },
 });
-
