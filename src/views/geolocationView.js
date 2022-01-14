@@ -2,12 +2,33 @@ import React, { useState, useEffect } from 'react';
 import MapView from 'react-native-maps';
 import {StyleSheet, Text, View, Platform, Dimensions} from "react-native";
 import * as Location from 'expo-location';
-import { NativeBaseProvider, Icon } from "native-base";
+import { FontAwesome } from "@expo/vector-icons";
+// import { NativeBaseProvider, Icon } from "native-base";
+import {NativeBaseProvider, Box, Input, Icon, Button, Label, Picker, Center} from 'native-base';
+import axios from "axios";
 
 export default function GeolocationView() {
     const [region, setRegion] = useState({lat: 44.837987, lon: -0.57922, latD: 0.1, lonD: 0.1,});
     const [errorMsg, setErrorMsg] = useState(null);
     const [isCalculating, setIsCalculating] = useState(true);
+    const [searchValue, setSearchValue] = useState("");
+
+    const search = (text) => {
+        // const newData = copyMarkers.filter(item => {
+        //     let itemName = `${item.name.toUpperCase()}`,
+        //         itemType = CATEGORIES[item.type].label.toUpperCase(),
+        //         textData = text.toUpperCase();
+        //     return itemName.indexOf(textData) > -1 || itemType.indexOf(textData) > -1;
+        // });
+        //
+        setSearchValue(text);
+        // setCopyMarkers(newData);
+        console.log("search",text);
+    };
+
+    const saveGeolocation = (coords) => {
+        console.log("save geoloc",coords);
+    }
 
     useEffect(() => {
         (async () => {
@@ -19,6 +40,19 @@ export default function GeolocationView() {
 
             let location = await Location.getCurrentPositionAsync({});
             console.log('iciiiiii',location);
+            if (location) {
+                axios.post("https://json.astrologyapi.com/v1/timezone_with_dst",{
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    date: "01-13-2022"
+                }, { headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Basic NjE4NTY3OjU0MTc3ZTJmOTE0N2UxMTdjMjVjNWYwODY4OThhM2E5"
+                }}).then(res => {
+                    console.log('axios get timezone',res.data);
+                })
+            }
+            // https://json.astrologyapi.com/v1/timezone_with_dst
             setRegion({lat: location.coords.latitude, lon: location.coords.longitude, latD: 0.1, lonD: 0.1,})
             setIsCalculating(false)
         })();
@@ -47,11 +81,26 @@ export default function GeolocationView() {
                         <MapView.Marker coordinate={{ latitude: region.lat, longitude: region.lon}}
                         >
                             <View>
-                                <Icon type="FontAwesome" name="home" style={{fontSize: 35, color: 'red'}} />
+                                <Icon as={FontAwesome} name="map-marker" style={{fontSize: 30, color: 'red'}} />
                             </View>
                         </MapView.Marker>
                     </MapView>
                 }
+                <View style={styles.searchView}>
+                    <Input
+                        style={styles.searchInput}
+                        placeholder="Chercher une ville"
+                        value={searchValue}
+                        autocorrect={false}
+                        size="lg"
+                        variant="rounded"
+                        onChangeText={(text) => search(text)} />
+                </View>
+                <View style={styles.validateButtonView}>
+                    <Button block colorScheme="green" size="lg" onPress={() => saveGeolocation()} leftIcon={<Icon name="check" as={FontAwesome} color="white" style={{ fontSize: 23}}/>}>
+                        Valider la localisation
+                    </Button>
+                </View>
             </View>
         </NativeBaseProvider>
 
@@ -74,4 +123,24 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
     },
+    searchbar: {
+        // marginBottom: 20,
+        paddingLeft: 10,
+        backgroundColor: '#ffffff',
+        borderRadius: 25,
+        height: 45,
+    },
+    searchView: {
+        position: 'absolute',
+        top: 10,
+        width: '90%'
+    },
+    searchInput: {
+        minWidth: '95%',
+        backgroundColor: '#ffffff',
+    },
+    validateButtonView: {
+        position: 'absolute',
+        bottom: 20,
+    }
 });
