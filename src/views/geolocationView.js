@@ -6,6 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 // import { NativeBaseProvider, Icon } from "native-base";
 import {NativeBaseProvider, Box, Input, Icon, Button, Label, Picker, Center} from 'native-base';
 import axios from "axios";
+import MapSearchBar from "@components/mapSearchBar";
 
 export default function GeolocationView() {
     const [region, setRegion] = useState({lat: 44.837987, lon: -0.57922, latD: 0.1, lonD: 0.1,});
@@ -21,13 +22,21 @@ export default function GeolocationView() {
         //     return itemName.indexOf(textData) > -1 || itemType.indexOf(textData) > -1;
         // });
         //
+        // http://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix=Pezin&hateoasMode=false&limit=5&offset=0&sort=-population
         setSearchValue(text);
+        axios.get("http://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix="+text+"&hateoasMode=false&limit=5&offset=0&sort=-population").then(res => {
+            console.log("result for '"+text+"' : ",res.data);
+        })
         // setCopyMarkers(newData);
         console.log("search",text);
     };
 
     const saveGeolocation = (coords) => {
         console.log("save geoloc",coords);
+    }
+
+    const changeMarkerPosition = (coords) => {
+        setRegion({lat: coords.lat,lon: coords.lon,latD: 0.1,lonD: 0.1})
     }
 
     useEffect(() => {
@@ -87,14 +96,26 @@ export default function GeolocationView() {
                     </MapView>
                 }
                 <View style={styles.searchView}>
-                    <Input
-                        style={styles.searchInput}
-                        placeholder="Chercher une ville"
-                        value={searchValue}
-                        autocorrect={false}
-                        size="lg"
-                        variant="rounded"
-                        onChangeText={(text) => search(text)} />
+                    {/*<Input*/}
+                    {/*    style={styles.searchInput}*/}
+                    {/*    placeholder="Chercher une ville"*/}
+                    {/*    value={searchValue}*/}
+                    {/*    autocorrect={false}*/}
+                    {/*    size="lg"*/}
+                    {/*    variant="rounded"*/}
+                    {/*    onChangeText={(text) => search(text)}*/}
+                    {/*    InputLeftElement={*/}
+                    {/*        <Icon*/}
+                    {/*            as={FontAwesome}*/}
+                    {/*            name="search"*/}
+                    {/*            size={5}*/}
+                    {/*            ml="2"*/}
+                    {/*            color="muted.400"*/}
+                    {/*            style={styles.searchBarIcon}*/}
+                    {/*        />*/}
+                    {/*    }*/}
+                    {/*/>*/}
+                    <MapSearchBar onLocationChange={changeMarkerPosition}/>
                 </View>
                 <View style={styles.validateButtonView}>
                     <Button block colorScheme="green" size="lg" onPress={() => saveGeolocation()} leftIcon={<Icon name="check" as={FontAwesome} color="white" style={{ fontSize: 23}}/>}>
@@ -125,12 +146,13 @@ const styles = StyleSheet.create({
     },
     searchbar: {
         // marginBottom: 20,
-        paddingLeft: 10,
+        // paddingLeft: 10,
         backgroundColor: '#ffffff',
-        borderRadius: 25,
         height: 45,
     },
     searchView: {
+        backgroundColor: '#ffffff',
+        borderRadius: 25,
         position: 'absolute',
         top: 10,
         width: '90%'
@@ -138,6 +160,11 @@ const styles = StyleSheet.create({
     searchInput: {
         minWidth: '95%',
         backgroundColor: '#ffffff',
+    },
+    searchBarIcon: {
+        // minWidth: '100%',
+        minHeight: '100%',
+      backgroundColor: '#ffffff'
     },
     validateButtonView: {
         position: 'absolute',
