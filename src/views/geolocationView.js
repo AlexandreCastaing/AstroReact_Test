@@ -8,32 +8,15 @@ import {NativeBaseProvider, Box, Input, Icon, Button, Label, Picker, Center} fro
 import axios from "axios";
 import MapSearchBar from "@components/mapSearchBar";
 import IconButton from "native-base/src/components/composites/IconButton/index";
+import moment from "moment";
 
-export default function GeolocationView() {
+export default function GeolocationView({navigation}) {
     const [region, setRegion] = useState({lat: 44.837987, lon: -0.57922, latD: 0.2, lonD: 0.2, name: ""});
     const [errorMsg, setErrorMsg] = useState(null);
     const [isCalculating, setIsCalculating] = useState(true);
-    const [searchValue, setSearchValue] = useState("");
 
-    const search = (text) => {
-        // const newData = copyMarkers.filter(item => {
-        //     let itemName = `${item.name.toUpperCase()}`,
-        //         itemType = CATEGORIES[item.type].label.toUpperCase(),
-        //         textData = text.toUpperCase();
-        //     return itemName.indexOf(textData) > -1 || itemType.indexOf(textData) > -1;
-        // });
-        //
-        // http://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix=Pezin&hateoasMode=false&limit=5&offset=0&sort=-population
-        setSearchValue(text);
-        axios.get("http://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix="+text+"&hateoasMode=false&limit=5&offset=0&sort=-population").then(res => {
-            console.log("result for '"+text+"' : ",res.data);
-        })
-        // setCopyMarkers(newData);
-        console.log("search",text);
-    };
-
-    const saveGeolocation = (coords) => {
-        console.log("save geoloc",coords);
+    const saveGeolocation = () => {
+        navigation.navigate("Search", { lat: region.lat, lon: region.lon, name: region.name})
     }
 
     const changeMarkerPosition = (coords) => {
@@ -56,21 +39,21 @@ export default function GeolocationView() {
                 return;
             }
             let location = await getCurrentPosition();
-            console.log('iciiiiii',location);
+
             if (location) {
                 axios.post("https://json.astrologyapi.com/v1/timezone_with_dst",{
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
-                    date: "01-13-2022"
+                    date: moment().format("MM-DD-YYYY") // has to be in MM-DD-YYYY format
                 }, { headers: {
                         "Content-Type": "application/json",
                         "Authorization": "Basic NjE4NTY3OjU0MTc3ZTJmOTE0N2UxMTdjMjVjNWYwODY4OThhM2E5"
                     }}).then(res => {
                     console.log('axios get timezone',res.data);
                 })
+                setRegion({lat: location.coords.latitude, lon: location.coords.longitude, latD: 0.2, lonD: 0.2, name: ""});
             }
 
-            setRegion({lat: location.coords.latitude, lon: location.coords.longitude, latD: 0.2, lonD: 0.2, name: ""});
             setIsCalculating(false)
         })();
     }, []);
@@ -84,7 +67,7 @@ export default function GeolocationView() {
     return(
         <NativeBaseProvider>
             <View style={styles.container}>
-                <Text>{text}</Text>
+                {/*<Text>{text}</Text>*/}
                 { isCalculating ?
                     <Text> Loading ... </Text>
                     : <MapView style={styles.map}
@@ -112,7 +95,7 @@ export default function GeolocationView() {
                             size="lg"
                             style={styles.validateButton}
                             onPress={() => saveGeolocation()}
-                            leftIcon={<Icon name="check" as={FontAwesome} color="white" style={{ fontSize: 23}}/>}
+                            leftIcon={<Icon name="check" as={FontAwesome} color="white" style={{fontSize: 23}}/>}
                     >
                         Valider la localisation
                     </Button>
