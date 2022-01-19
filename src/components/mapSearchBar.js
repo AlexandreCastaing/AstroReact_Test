@@ -1,5 +1,5 @@
 import React, {useState,useEffect,useMemo,useCallback} from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, View, Keyboard} from "react-native";
 import {Icon, Input, List} from "native-base";
 import {FontAwesome} from "@expo/vector-icons";
 import axios from "axios";
@@ -33,6 +33,13 @@ export default function MapSearchBar({onLocationChange}) {
 
     },[searchValue]);
 
+    const getLocation = (location) => {
+        Keyboard.dismiss();
+        setShowResults(false);
+        onLocationChange(location);
+        console.log("selected location",location)
+    }
+
     return (
         <View>
             <Input
@@ -56,7 +63,7 @@ export default function MapSearchBar({onLocationChange}) {
             />
             {
                 showResults && <List spacing={2} my={2} style={styles.resultList}>
-                    { results.map(location => (<List.Item key={location.id} >{location.city}, {location.region} ({location.country})</List.Item>))}
+                    { results.map(location => (<List.Item key={location.id} onPress={() => {getLocation(location)}}>{location.city}, {location.region} ({location.country})</List.Item>))}
                 </List>
             }
         </View>
