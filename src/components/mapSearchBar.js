@@ -8,83 +8,30 @@ import _ from 'lodash';
 
 export default function MapSearchBar({onLocationChange}) {
     const [searchValue,setSearchValue] = useState("");
-    const [inputValue,setInputValue] = useState("");
     const [results,setResults] = useState([]);
     const [showResults,setShowResults] = useState(false);
 
-    // useEffect(() => {
-    //     if (!searchValue.length) {
-    //         setShowResults(false);
-    //     } else {
-    //         axios.get("http://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix="+searchValue+"&hateoasMode=false&limit=5&offset=0&sort=-population").then(res => {
-    //             console.log("result for '"+searchValue+"' : ",res.data.data.length);
-    //             if (res.data.data) {
-    //                 setShowResults(true);
-    //                 setResults(res.data.data);
-    //             }
-    //         })
-    //     }
-    // },[searchValue]);
+    useEffect(() => {
 
-    // const debouncedResults = useMemo(() => {
-    //     return debounce(handleChange, 300);
-    // }, []);
+        const delayDebounceFn = setTimeout(() => {
+            console.log("search debounce ",searchValue)
+            // Send Axios request here
+            if (!searchValue.length) {
+                setShowResults(false);
+            } else {
+                axios.get("http://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix="+searchValue+"&hateoasMode=false&limit=5&offset=0&sort=-population").then(res => {
+                    console.log("result for '"+searchValue+"' : ",res.data.data.length);
+                    if (res.data.data) {
+                        setShowResults(true);
+                        setResults(res.data.data);
+                    }
+                })
+            }
+        }, 300)
 
-    // const handleChange = (e) => {
-    //     console.log("handle change",e);
-    //     return debounce(query => {
-    //         if (!query) return setSearchValue("")
-    //
-    //         console.log('====>', query)
-    //
-    //         setSearchValue(e)
-    //     }, 500)
-    // };
-    //
-    // const search = (text) => {
-    //     console.log("search",text.length);
-    //     setSearchValue(text);
-    //     if (text.length) {
-    //         axios.get("http://geodb-free-service.wirefreethought.com/v1/geo/cities?namePrefix="+text+"&hateoasMode=false&limit=5&offset=0&sort=-population").then(res => {
-    //             console.log("result for '"+text+"' : ",res.data.data.length);
-    //             if (res.data.data) {
-    //                 setShowResults(true);
-    //                 setResults(res.data.data);
-    //             }
-    //         })
-    //     } else {
-    //         console.log("no text to search ", text.length);
-    //         setShowResults(false);
-    //     }
-    //
-    //     // setCopyMarkers(newData);
-    //     // console.log("search",text);
-    // };
-    // useEffect(() => {
-    //     return () => {
-    //         debouncedResults.cancel();
-    //     };
-    // });
+        return () => clearTimeout(delayDebounceFn)
 
-    // const doCityFilter = debounce(query => {
-    //     if (!query) return setSearchValue("")
-    //
-    //     console.log('====>', query)
-    //
-    //     setSearchValue(query)
-    // }, 500)
-
-    // const handleTextChange = _.debounce((text) =>{
-    //     console.log("aaaaaaaaaa",text);
-    //     setSearchValue(text);
-    // },1200);
-    const handleTextChange = (text) => {
-        setSearchValue(text);
-        _.debounce((text) =>{
-            console.log("aaaaaaaaaa",text);
-            // setSearchValue(true);
-        },200);
-    }
+    },[searchValue]);
 
     return (
         <View>
@@ -95,7 +42,7 @@ export default function MapSearchBar({onLocationChange}) {
                 autocorrect={false}
                 size="lg"
                 variant="rounded"
-                onChangeText={text => handleTextChange(text)}
+                onChangeText={text => setSearchValue(text)}
                 InputLeftElement={
                     <Icon
                         as={FontAwesome}
