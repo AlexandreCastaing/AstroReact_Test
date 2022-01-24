@@ -8,7 +8,7 @@ export default function AboutView() {
     const data = [
         {id: 1, firstname: "Henri", lastname: "GOURGUE", email: "gourgueh@gmail.com", img: 'https://lh3.googleusercontent.com/ogw/ADea4I5alMdlxwIPoX9zZVOeKYB8PXWjFFAV9scsE9QG=s192-c-mo'},
         {id: 2, firstname: "Alexandre", lastname: "CASTAIGN", email: "acasta@gmail.com", img: 'https://lh3.googleusercontent.com/ogw/ADea4I5ogHPdexjtqD9iGCuOLKwYIJWad4di10UeoiOF=s192-c-mo'},
-        {id: 3, firstname: "Michaela", lastname: "ALFODIOVA", email: "alfom@gmail.com", img: 'https://peuniverse.com/wp-content/plugins/buddypress-initial-letter-avatar/images/lato/512/latin_m.png'}
+        {id: 3, firstname: "Michaela", lastname: "ALFOLDIOVA", email: "alfom@gmail.com", img: 'https://peuniverse.com/wp-content/plugins/buddypress-initial-letter-avatar/images/lato/512/latin_m.png'}
     ]
 
     const _renderItem = ({ item }) => {
