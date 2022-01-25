@@ -1,4 +1,5 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import MyWebComponent from "@components/result";
 
 export default function MainView({navigation}) {
 
@@ -10,7 +11,8 @@ export default function MainView({navigation}) {
         <View style={styles.container}>
 
             <View style={styles.resultView}>
-                <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image>
+                {/* <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image> */}
+                <MyWebComponent></MyWebComponent>
             </View>
 
             <View style={styles.navigationView}>
@@ -58,7 +60,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        height: "30%"
+        height: "55%",
+        width: "100%"
     },
     resultImage: {
         flex: 1, height: 90, width: 90, resizeMode: 'contain'
