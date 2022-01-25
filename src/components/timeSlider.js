@@ -6,8 +6,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 export default function TimeSlider({parentCallback}) {
 
   const returnToCenter = false;
-  const minValue =  -16777215; // -100000
-  const maxValue = 16777216; // 100000
+  const minValue =  -20000; // -100000
+  const maxValue = 20000; // 100000
 
   const [value] = useState(0);
   const [multiSliderValue, setMultiSliderValue] = useState([0]);

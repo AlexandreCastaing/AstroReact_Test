@@ -26,21 +26,21 @@ export default function SearchView({navigation}) {
     const setDate = (_value) => {
         setDateTimeOffset(_value);
 
-        const timeTick = _value / 35;
+        const timeTick = _value;
         const date = new Date(2022,1,1).setMinutes(timeTick);
+
         setDateTimeValue(date);
     }
+    
     const getDateText = () => {
+        const currentDate = new Date(dateTimeValue);
 
-
-        let currentDate = new Date(dateTimeValue);
-
-        let date = currentDate.getDate();
-        let month = currentDate.getMonth(); 
-        let year = currentDate.getFullYear();
-        let hour = currentDate.getHours();
-        let minute = currentDate.getMinutes();
-        let dateString = date + "-" +(month + 1) + "-" + year+ "  " 
+        const date = currentDate.getDate();
+        const month = currentDate.getMonth(); 
+        const year = currentDate.getFullYear();
+        const hour = currentDate.getHours();
+        const minute = currentDate.getMinutes();
+        const dateString = date + "-" +(month + 1) + "-" + year+ "  " 
         + hour.toString().padStart(2, '0')+ ":"
         + minute.toString().padStart(2, '0');
 
