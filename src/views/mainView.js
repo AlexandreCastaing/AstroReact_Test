@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     resultView: {
+        backgroundColor: "red",
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        height: "55%",
-        width: "100%"
+        height: "55%"
     },
     resultImage: {
         flex: 1, height: 90, width: 90, resizeMode: 'contain'
