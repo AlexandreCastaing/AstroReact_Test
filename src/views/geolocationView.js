@@ -115,13 +115,13 @@ export default function GeolocationView({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#223366',
         alignItems: 'center',
         justifyContent: 'center',
     },
     button: {
         alignItems: "center",
-        backgroundColor: "#DDDDDD",
+        backgroundColor: "#000",
         padding: 10
     },
     map: {
