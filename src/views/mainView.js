@@ -17,7 +17,7 @@ export default function MainView({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#223366',
         alignItems: 'center',
         justifyContent: 'center',
     },
