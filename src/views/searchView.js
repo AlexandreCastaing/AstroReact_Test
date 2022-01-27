@@ -14,12 +14,12 @@ export default function SearchView({route, navigation}) {
     const [timerState, setTimerState] = useState(null);
 
     const [cityName, setCityName] = useState("Unknown");
-    
+
     const { lat, lon, name } = route.params; // = {lat: 0, lon: 0, name: ""}
 
     const addTime = (_value) => {
         const newTime = dateTimeValue + _value;
-        setDateTimeValue(newTime); 
+        setDateTimeValue(newTime);
         return newTime;
     }
     const setDate = (_value) => {
@@ -30,16 +30,16 @@ export default function SearchView({route, navigation}) {
 
         setDateTimeValue(date);
     }
-    
+
     const getDateText = () => {
         const currentDate = new Date(dateTimeValue);
 
         const date = currentDate.getDate();
-        const month = currentDate.getMonth(); 
+        const month = currentDate.getMonth();
         const year = currentDate.getFullYear();
         const hour = currentDate.getHours();
         const minute = currentDate.getMinutes();
-        const dateString = date + "-" +(month + 1) + "-" + year+ "  " 
+        const dateString = date + "-" +(month + 1) + "-" + year+ "  "
         + hour.toString().padStart(2, '0')+ ":"
         + minute.toString().padStart(2, '0');
 
@@ -65,25 +65,21 @@ export default function SearchView({route, navigation}) {
     const callback = useCallback((count) => {
 
         setDate(count);
- 
+
     }, []);
 
     let timer = null;
     useEffect(() => {
-            timer = setInterval(() => {
-                  
-            if(name == undefined || name == "")
-             setCityName("Unknown") 
-            else 
-             setCityName(name);      
-
-            }, delayRequest);
             setTimerState(timer);
-        
+
             return () => {
                 clearTimeout(timer);
             }
         }, []);
+
+    useEffect(() => {
+        route.params.name ? setCityName(route.params.name) : setCityName("Unknown");
+    }, [lat,lon,name])
 
     const MapLogoImage = require('@assets/map.png')
     return(
@@ -94,10 +90,10 @@ export default function SearchView({route, navigation}) {
                 {/* <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image> */}
                 <MyWebComponent datetime={getDateLink()} lat={lat} lon={lon} tz={"1"}></MyWebComponent>
             </View>
-            
-            
+
+
             <Text  style={styles.timeDisplayButton}> {getDateText()} </Text>
-            
+
             <TimeSlider style={styles.timeSlider } parentCallback={callback}/>
 
             <View style={styles.borderLine}></View>
@@ -147,7 +143,7 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 15
     },
-    logoMap: { 
+    logoMap: {
         width: 65,
         height: 65,
         padding: 0,
@@ -161,7 +157,7 @@ const styles = StyleSheet.create({
     },
     borderBtn: {
         padding: 12,
-        margin: 12      
+        margin: 12
     },
     borderLine: {
         padding: 4,
