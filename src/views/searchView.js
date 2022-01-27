@@ -121,19 +121,19 @@ export default function SearchView({route, navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#223366',
+        backgroundColor: '#000000',
         alignItems: 'center',
         justifyContent: 'center',
     },
     buttonMap: {
         alignItems: "center",
-        backgroundColor: "#334488",
+        backgroundColor: "#353535",
         padding: 10,
         flexDirection:'row',
     },
     timeDisplayButton: {
         alignItems: "center",
-        backgroundColor: "#223366",
+        backgroundColor: "#353535",
         color: "#fff",
         fontSize: 27,
         padding: 15,
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     },
     timeSlider: {
         padding: 10,
-        margin: 15
+        margin: 15,
     },
     logoMap: {
         width: 65,

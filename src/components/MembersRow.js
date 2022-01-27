@@ -17,7 +17,7 @@ const MembersRow = (props) => {
                 width: "100%",
                 left: 5}}>
 
-                <Text>{item.firstname} {item.lastname} - {item.email}</Text>
+                <Text style={{color: "#ffffff"}}>{item.firstname} {item.lastname} - {item.email}</Text>
             </View>
         </View>
     );

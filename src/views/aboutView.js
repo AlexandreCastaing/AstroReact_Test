@@ -54,7 +54,8 @@ export default function AboutView() {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#ffffff'
+        backgroundColor: '#000000' , 
+        height: "100%"
     },
     button: {
         alignItems: "center",
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         textDecorationLine: "underline",
-        paddingBottom: 10
+        paddingBottom: 10, 
+        color: "#ffffff"
     },
     membersView: {
         width: "100%",
@@ -78,7 +80,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     linkText: {
-        color: 'blue',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        color: "#ffffff"
     }
 });
