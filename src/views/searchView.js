@@ -50,13 +50,13 @@ export default function SearchView({route, navigation}) {
         const currentDate = new Date(dateTimeValue);
 
         const date = currentDate.getDate();
-        const month = currentDate.getMonth(); 
+        const month = currentDate.getMonth();
         const year = currentDate.getFullYear();
         const hour = currentDate.getHours();
         const minute = currentDate.getMinutes();
-        const dateString = year + "-" +(month + 1).toString().padStart(2, '0') + "-" + date+ " " 
+        const dateString = year + "-" +(month + 1).toString().padStart(2, '0') + "-" + date+ " "
         + hour.toString().padStart(2, '0')+ ":"
-        + minute.toString().padStart(2, '0')+ ":";
+        + minute.toString().padStart(2, '0')+ ":"
         + "00";
 
         return dateString;
