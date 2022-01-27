@@ -12,7 +12,8 @@ export default function MainView({navigation}) {
 
             <View style={styles.resultView}>
                 {/* <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image> */}
-                <MyWebComponent datetime={"2022-01-01 01:01:00"} lat={"0.2"} lon={"0.2"} tz={"1"}></MyWebComponent>
+                {/*<MyWebComponent datetime={"2022-01-01 01:01:00"} lat={"0.2"} lon={"0.2"} tz={"1"}></MyWebComponent>*/}
+                <Image source={require('@assets/demoAstro.png')} style={{ flex: 1, width: "100%", resizeMode: 'contain' }}/>
             </View>
 
             <View style={styles.navigationView}>
