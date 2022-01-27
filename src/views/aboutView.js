@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView, Image} from "react-native";
 import * as React from 'react';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView, Image } from "react-native";
 import MembersRow from '@components/MembersRow';
 import * as Linking from 'expo-linking';
 
@@ -54,7 +54,7 @@ export default function AboutView() {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#000000' , 
+        backgroundColor: '#000000' ,
         height: "100%"
     },
     button: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         textDecorationLine: "underline",
-        paddingBottom: 10, 
+        paddingBottom: 10,
         color: "#ffffff"
     },
     membersView: {

@@ -1,4 +1,5 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Image, StatusBar} from "react-native";
 import MyWebComponent from "@components/result";
 
 export default function MainView({navigation}) {
@@ -9,7 +10,7 @@ export default function MainView({navigation}) {
 
     return(
         <View style={styles.container}>
-
+            <StatusBar barStyle="light-content"/>
             <View style={styles.resultView}>
                 {/* <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image> */}
                 {/*<MyWebComponent datetime={"2022-01-01 01:01:00"} lat={"0.2"} lon={"0.2"} tz={"1"}></MyWebComponent>*/}

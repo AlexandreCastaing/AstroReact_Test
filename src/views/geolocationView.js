@@ -67,9 +67,8 @@ export default function GeolocationView({navigation}) {
     return(
         <NativeBaseProvider>
             <View style={styles.container}>
-                {/*<Text>{text}</Text>*/}
                 { isCalculating ?
-                    <Text> Loading ... </Text>
+                    <Text style={{color:"#ffffff"}}> Loading ... </Text>
                     : <MapView style={styles.map}
                                region={{
                                    latitude:region.lat,
@@ -115,7 +114,7 @@ export default function GeolocationView({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#223366',
+        backgroundColor: '#000000',
         alignItems: 'center',
         justifyContent: 'center',
     },
