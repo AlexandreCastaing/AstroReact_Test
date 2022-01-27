@@ -3,7 +3,7 @@ import MyWebComponent from "@components/result";
 
 export default function MainView({navigation}) {
 
-    const onSearchPress = () => navigation.navigate('Search');
+    const onSearchPress = () => navigation.navigate('Search', {lat: 0, lon: 0, name: ""});
     const onHistoPress = () => console.log('Not coded');
     const onAboutPress = () => navigation.navigate('About');
 
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     resultView: {
-        backgroundColor: "red",
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",

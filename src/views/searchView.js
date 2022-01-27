@@ -3,13 +3,11 @@ import TimeSlider from "@components/timeSlider";
 
 import React, { useState, useEffect, useCallback } from 'react';
 
+import MyWebComponent from "@components/result";
 
-//let tickInterval = true;
-//setInterval(() => tickInterval = true, 100);
+export default function SearchView({route, navigation}) {
 
-
-export default function SearchView({navigation}) {
-
+    const delayRequest = 500; //ms
     const onPress = () => navigation.navigate('Map');
     const [dateTimeValue, setDateTimeValue] = useState(Date.now());
     const [dateTimeOffset, setDateTimeOffset] = useState(0);
@@ -17,7 +15,8 @@ export default function SearchView({navigation}) {
 
     const [cityName, setCityName] = useState("Unknown");
     
-    
+    const { lat, lon, name } = route.params; // = {lat: 0, lon: 0, name: ""}
+
     const addTime = (_value) => {
         const newTime = dateTimeValue + _value;
         setDateTimeValue(newTime); 
@@ -48,25 +47,27 @@ export default function SearchView({navigation}) {
     }
 
     const callback = useCallback((count) => {
-        //const newTimeValue = Math.pow(count, 3) 
-        /// 5000  / 5000  / 5000
 
-        //addTime(newTimeValue);
+        console.log(route.params);
 
         setDate(count);
-
-        //setDateTimeOffset(newTimeValue);
-        //console.log(">+  " +newTimeValue +"  "+ dateTimeOffset);
-        //setDateTimeValue(dateTimeValue + dateTimeOffset);
-        
+ 
     }, []);
 
     let timer = null;
     useEffect(() => {
             timer = setInterval(() => {
-                console.log(">>  " +getDateText() + "  " + dateTimeOffset);
-                //setDateTimeValue(dateTimeValue + dateTimeOffset);
-            }, 500 * 1);
+                  
+            
+            if(name == undefined || name == "")
+             setCityName("Unknown") 
+            else 
+             setCityName(name);      
+
+            console.log(route);
+
+
+            }, delayRequest);
             setTimerState(timer);
         
             return () => {
@@ -78,7 +79,13 @@ export default function SearchView({navigation}) {
 
     return(
         <View style={styles.container}>
-            <Text> Search view </Text>
+
+
+            <View style={styles.resultView}>
+                {/* <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image> */}
+                <MyWebComponent></MyWebComponent>
+            </View>
+            
             
             <Text  style={styles.timeDisplayButton}> {getDateText()} </Text>
             
@@ -150,5 +157,11 @@ const styles = StyleSheet.create({
     borderLine: {
         padding: 4,
         margin: 4
-    }
+    },
+    resultView: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "55%"
+    },
 });
