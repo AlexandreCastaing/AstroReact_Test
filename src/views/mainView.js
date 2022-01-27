@@ -3,7 +3,7 @@ import MyWebComponent from "@components/result";
 
 export default function MainView({navigation}) {
 
-    const onSearchPress = () => navigation.navigate('Search');
+    const onSearchPress = () => navigation.navigate('Search', {lat: 0, lon: 0, name: ""});
     const onHistoPress = () => console.log('Not coded');
     const onAboutPress = () => navigation.navigate('About');
 
@@ -12,7 +12,7 @@ export default function MainView({navigation}) {
 
             <View style={styles.resultView}>
                 {/* <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image> */}
-                <MyWebComponent></MyWebComponent>
+                <MyWebComponent datetime={"2022-01-01 01:01:01"} lat={"0"} lon={"0"} tz={"1"}></MyWebComponent>
             </View>
 
             <View style={styles.navigationView}>
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     resultView: {
-        backgroundColor: "red",
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",

@@ -3,24 +3,23 @@ import TimeSlider from "@components/timeSlider";
 
 import React, { useState, useEffect, useCallback } from 'react';
 
+import MyWebComponent from "@components/result";
 
-//let tickInterval = true;
-//setInterval(() => tickInterval = true, 100);
+export default function SearchView({route, navigation}) {
 
-
-export default function SearchView({navigation}) {
-
+    const delayRequest = 500; //ms
     const onPress = () => navigation.navigate('Map');
     const [dateTimeValue, setDateTimeValue] = useState(Date.now());
     const [dateTimeOffset, setDateTimeOffset] = useState(0);
     const [timerState, setTimerState] = useState(null);
 
     const [cityName, setCityName] = useState("Unknown");
-    
-    
+
+    const { lat, lon, name } = route.params; // = {lat: 0, lon: 0, name: ""}
+
     const addTime = (_value) => {
         const newTime = dateTimeValue + _value;
-        setDateTimeValue(newTime); 
+        setDateTimeValue(newTime);
         return newTime;
     }
     const setDate = (_value) => {
@@ -31,57 +30,70 @@ export default function SearchView({navigation}) {
 
         setDateTimeValue(date);
     }
-    
+
     const getDateText = () => {
         const currentDate = new Date(dateTimeValue);
 
         const date = currentDate.getDate();
-        const month = currentDate.getMonth(); 
+        const month = currentDate.getMonth();
         const year = currentDate.getFullYear();
         const hour = currentDate.getHours();
         const minute = currentDate.getMinutes();
-        const dateString = date + "-" +(month + 1) + "-" + year+ "  " 
+        const dateString = date + "-" +(month + 1) + "-" + year+ "  "
         + hour.toString().padStart(2, '0')+ ":"
         + minute.toString().padStart(2, '0');
 
         return dateString;
     }
 
-    const callback = useCallback((count) => {
-        //const newTimeValue = Math.pow(count, 3) 
-        /// 5000  / 5000  / 5000
+    const getDateLink = () => {
+        const currentDate = new Date(dateTimeValue);
 
-        //addTime(newTimeValue);
+        const date = currentDate.getDate();
+        const month = currentDate.getMonth();
+        const year = currentDate.getFullYear();
+        const hour = currentDate.getHours();
+        const minute = currentDate.getMinutes();
+        const dateString = year + "-" +(month + 1).toString().padStart(2, '0') + "-" + date+ " "
+        + hour.toString().padStart(2, '0')+ ":"
+        + minute.toString().padStart(2, '0')+ ":"
+        + "00";
+
+        return dateString;
+    }
+
+    const callback = useCallback((count) => {
 
         setDate(count);
 
-        //setDateTimeOffset(newTimeValue);
-        //console.log(">+  " +newTimeValue +"  "+ dateTimeOffset);
-        //setDateTimeValue(dateTimeValue + dateTimeOffset);
-        
     }, []);
 
     let timer = null;
     useEffect(() => {
-            timer = setInterval(() => {
-                console.log(">>  " +getDateText() + "  " + dateTimeOffset);
-                //setDateTimeValue(dateTimeValue + dateTimeOffset);
-            }, 500 * 1);
             setTimerState(timer);
-        
+
             return () => {
                 clearTimeout(timer);
             }
         }, []);
 
-    const MapLogoImage = require('@assets/map.png')
+    useEffect(() => {
+        route.params.name ? setCityName(route.params.name) : setCityName("Unknown");
+    }, [lat,lon,name])
 
+    const MapLogoImage = require('@assets/map.png')
     return(
         <View style={styles.container}>
-            <Text> Search view </Text>
-            
+
+
+            <View style={styles.resultView}>
+                {/* <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image> */}
+                <MyWebComponent datetime={getDateLink()} lat={lat} lon={lon} tz={"1"}></MyWebComponent>
+            </View>
+
+
             <Text  style={styles.timeDisplayButton}> {getDateText()} </Text>
-            
+
             <TimeSlider style={styles.timeSlider } parentCallback={callback}/>
 
             <View style={styles.borderLine}></View>
@@ -131,7 +143,7 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 15
     },
-    logoMap: { 
+    logoMap: {
         width: 65,
         height: 65,
         padding: 0,
@@ -145,10 +157,16 @@ const styles = StyleSheet.create({
     },
     borderBtn: {
         padding: 12,
-        margin: 12      
+        margin: 12
     },
     borderLine: {
         padding: 4,
         margin: 4
-    }
+    },
+    resultView: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "55%"
+    },
 });
