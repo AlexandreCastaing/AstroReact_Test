@@ -46,9 +46,23 @@ export default function SearchView({route, navigation}) {
         return dateString;
     }
 
-    const callback = useCallback((count) => {
+    const getDateLink = () => {
+        const currentDate = new Date(dateTimeValue);
 
-        console.log(route.params);
+        const date = currentDate.getDate();
+        const month = currentDate.getMonth(); 
+        const year = currentDate.getFullYear();
+        const hour = currentDate.getHours();
+        const minute = currentDate.getMinutes();
+        const dateString = year + "-" +(month + 1).toString().padStart(2, '0') + "-" + date+ " " 
+        + hour.toString().padStart(2, '0')+ ":"
+        + minute.toString().padStart(2, '0')+ ":";
+        + "00";
+
+        return dateString;
+    }
+
+    const callback = useCallback((count) => {
 
         setDate(count);
  
@@ -58,14 +72,10 @@ export default function SearchView({route, navigation}) {
     useEffect(() => {
             timer = setInterval(() => {
                   
-            
             if(name == undefined || name == "")
              setCityName("Unknown") 
             else 
              setCityName(name);      
-
-            console.log(route);
-
 
             }, delayRequest);
             setTimerState(timer);
@@ -76,14 +86,13 @@ export default function SearchView({route, navigation}) {
         }, []);
 
     const MapLogoImage = require('@assets/map.png')
-
     return(
         <View style={styles.container}>
 
 
             <View style={styles.resultView}>
                 {/* <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image> */}
-                <MyWebComponent></MyWebComponent>
+                <MyWebComponent datetime={getDateLink()} lat={lat} lon={lon} tz={"1"}></MyWebComponent>
             </View>
             
             

@@ -12,7 +12,7 @@ export default function MainView({navigation}) {
 
             <View style={styles.resultView}>
                 {/* <Image style={styles.resultImage} source={require('@assets/loading.png')}></Image> */}
-                <MyWebComponent></MyWebComponent>
+                <MyWebComponent datetime={"2022-01-01 01:01:01"} lat={"0"} lon={"0"} tz={"1"}></MyWebComponent>
             </View>
 
             <View style={styles.navigationView}>
